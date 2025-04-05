@@ -12,9 +12,10 @@ class Personagem:
     def tomar_dano(self,dano):
         self.vida -= dano
         if self.vida <= 0:
+            self.vida = 0
             print("Game over")
         else:
-            print(self.vida) 
+            print(f"Vida restante: {self.vida}") 
 
     def pular(self):
         print("O personagem pulou!")
@@ -30,11 +31,13 @@ vida chegar a 0, imprima "Game Over!".
     
 
 class Inimigo:
-    def __init__(self):
-        self.nome = "Sem nome"
+    def __init__(self, nome):
+        self.nome = nome
+        self.vida = 100
 
     def atacar(self, alvo):
-        print("O inimigo atacou!")
+        print(f"{self.nome} atacou ferozmente!")
+        alvo.tomar_dano(10)
 
 """
 Crie uma classe Inimigo com atributos nome e vida (inicializada
@@ -80,28 +83,16 @@ class Jogador:
         self.energia = 100
 
     def recuperar_energia(self, quantidade):
-        if self.energia < 100:
             self.energia += quantidade
-            print(f"Você recuperou {quantidade} de energia!")
-        else:
-            print("Sua energia esta cheia.")
+            print(f"Energia recuperada. Você esta com {self.energia} de energia.")
 
     def usar_energia(self, quantidade):
-        if self.energia > 0:
+        if self.energia - quantidade < 0:
+            print("Sem energia")
+        else:
             self.energia -= quantidade
-            print(f"Você gastou {quantidade} de energia")
-        elif self.energia <= 0:
-            print("Sem energia suficiente!")
+            print(f"Foi um otimo golpe. No entanto, resta {self.energia} de energia.")
 
-
-
-
-"""
-Crie uma classe Jogador com um atributo energia, inicializado
-em 50. Adicione métodos recuperar_energia(quantidade) e
-usar_energia(quantidade). Se a energia for menor que 0,
-imprima "Sem energia suficiente!".
-"""
 
 
 
@@ -114,7 +105,9 @@ teste.mostrar_pontos()
 """
 
 
+heroi = Personagem()
+vilao = Inimigo("Goblin")
 
-
-
+vilao.atacar(heroi)  # Goblin atacou! Vida restante: 90
+vilao.atacar(heroi)  # Goblin atacou! Vida restante: 80
 

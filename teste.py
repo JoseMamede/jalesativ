@@ -1,30 +1,27 @@
-class Jogador:
+class Personagem:
     def __init__(self):
-        self.energia = 100
+        self.vida = 100
 
-    def recuperar_energia(self, quantidade):
-        if self.energia < 100:
-            self.energia += quantidade
-            print(f"Você recuperou {quantidade} de energia!")
+    def tomar_dano(self, dano):
+        self.vida -= dano
+        if self.vida <= 0:
+            self.vida = 0
+            print("Game Over!")
         else:
-            print("Sua energia esta cheia.")
-
-    def usar_energia(self, quantidade):
-        if self.energia >= 0:
-            self.energia -= quantidade
-            print(f"Você gastou {quantidade} de energia")
-        elif self.energia <= 0:
-            print("Sem energia suficiente!")
+            print(f"Vida restante: {self.vida}")
 
 
+class Inimigo:
+    def __init__(self, nome):
+        self.nome = nome
+        self.vida = 100
 
+    def atacar(self, alvo):
+        print(f"{self.nome} atacou ferozmente!")
+        alvo.tomar_dano(10)
 
-"""
-Crie uma classe Jogador com um atributo energia, inicializado
-em 50. Adicione métodos recuperar_energia(quantidade) e
-usar_energia(quantidade). Se a energia for menor que 0,
-imprima "Sem energia suficiente!".
-"""
+heroi = Personagem()
+vilao = Inimigo("Goblin")
 
-teste = Jogador()
-teste.recuperar_energia(20)
+vilao.atacar(heroi)  # Goblin atacou! Vida restante: 90
+vilao.atacar(heroi)  # Goblin atacou! Vida restante: 80
