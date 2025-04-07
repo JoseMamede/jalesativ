@@ -1,4 +1,5 @@
 #Criando classes sem atributos, apenas métodos
+import random
 class Jogo:
     def __init__(self):
         pass
@@ -6,47 +7,53 @@ class Jogo:
         print("O jogo começou!")
 
 class Personagem:
-    def __init__(self):
-        self.nome = input("Digite o nome do personagem: ")
+    def __init__(self, nome):
+        self.nome = nome
         self.vida = 100
-    def tomar_dano(self,dano):
+
+    def tomar_dano(self, dano):
         self.vida -= dano
         if self.vida <= 0:
             self.vida = 0
-            print("Game over")
-        else:
-            print(f"Vida restante: {self.vida}") 
+            print(f"{self.nome} tomou {dano} de dano! Vida atual: {self.vida}")
 
-    def pular(self):
-        print("O personagem pulou!")
-    def dizer_nome(self):
-        print(self.nome)
+    def atacar(self, alvo):
+        dano = random.randint(5,20)
+        print(f"{self.nome} atacou ferozmente!")
+        alvo.tomar_dano(dano)  
 
-"""
-Crie uma classe Personagem com um atributo vida, inicializado
-em 100. Adicione um método tomar_dano(dano), que reduz a
-vida do personagem pelo valor passado como parâmetro. Se a
-vida chegar a 0, imprima "Game Over!".
-"""
-    
 
 class Inimigo:
     def __init__(self, nome):
         self.nome = nome
         self.vida = 100
 
+    def tomar_dano(self, dano):
+        self.vida -= dano
+        if self.vida <= 0:
+            self.vida = 0
+            print(f"{self.nome} tomou {dano} de dano! Vida restante: {self.vida}")
+
     def atacar(self, alvo):
+        dano = random.randint(5,20)
         print(f"{self.nome} atacou ferozmente!")
-        alvo.tomar_dano(10)
+        alvo.tomar_dano(dano)
 
 """
-Crie uma classe Inimigo com atributos nome e vida (inicializada
-com 100). Adicione um método atacar(alvo), onde alvo é um
-objeto da classe Personagem. Esse método deve reduzir a vida
-do alvo em 10 pontos.'
+heroi = Personagem("MIguel")
+vilao = Inimigo("Goblin")
 """
 
+while heroi.vida > 0 and vilao.vida > 0:
+    heroi.atacar(vilao)
+    if vilao.vida <= 0:
+        print(f"{vilao.nome} foi pra vala! {heroi.nome} venceu!")
+        break
 
+    vilao.atacar(heroi)
+    if vilao.vida <= 0:
+        print(f"{heroi.nome} foi pra vala! {vilao.nome} venceu!")
+        break
 
 class Pontuacao:
     def __init__(self):
