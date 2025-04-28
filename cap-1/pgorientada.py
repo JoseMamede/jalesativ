@@ -9,7 +9,7 @@ class Jogo:
 class Personagem:
     def __init__(self, nome):
         self.nome = nome
-        self.vida = 100
+        self.__vida = 100
 
     def tomar_dano(self, dano):
         self.vida -= dano
@@ -57,7 +57,7 @@ while heroi.vida > 0 and vilao.vida > 0:
 
 class Pontuacao:
     def __init__(self):
-        self.pontos = 0
+        self.__pontos = 0
     def zerar_pontos(self):
         print("Pontuação zerada!")
     def adicionar_pontos(self, quantidade):
