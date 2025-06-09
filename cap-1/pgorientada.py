@@ -7,42 +7,42 @@ class Jogo:
         print("O jogo começou!")
 
 class Personagem:
-    def __init__(self, nome):
+    def __init__(self, nome, vida):
         self.nome = nome
-        self.__vida = 100
+        self.vida = vida  
 
     def tomar_dano(self, dano):
         self.vida -= dano
-        if self.vida <= 0:
+        if self.vida < 0:
             self.vida = 0
-            print(f"{self.nome} tomou {dano} de dano! Vida atual: {self.vida}")
+        print(f"{self.nome} tomou {dano} de dano! Vida atual: {self.vida}")
 
     def atacar(self, alvo):
-        dano = random.randint(5,20)
-        print(f"{self.nome} atacou ferozmente!")
-        alvo.tomar_dano(dano)  
-
-
-class Inimigo:
-    def __init__(self, nome):
-        self.nome = nome
-        self.vida = 100
-
-    def tomar_dano(self, dano):
-        self.vida -= dano
-        if self.vida <= 0:
-            self.vida = 0
-            print(f"{self.nome} tomou {dano} de dano! Vida restante: {self.vida}")
-
-    def atacar(self, alvo):
-        dano = random.randint(5,20)
+        dano = random.randint(5, 20)
         print(f"{self.nome} atacou ferozmente!")
         alvo.tomar_dano(dano)
 
-"""
-heroi = Personagem("MIguel")
-vilao = Inimigo("Goblin")
-"""
+
+
+class Inimigo:
+    def __init__(self, nome, vida, forca):
+        self.nome = nome
+        self.vida = vida  
+        self.forca = forca  
+
+    def tomar_dano(self, dano):
+        self.vida -= dano
+        if self.vida < 0:
+            self.vida = 0
+        print(f"{self.nome} tomou {dano} de dano! Vida restante: {self.vida}")
+
+    def atacar(self, alvo):
+        dano = random.randint(5, 20) + self.forca  
+        print(f"{self.nome} atacou ferozmente!")
+        alvo.tomar_dano(dano)
+
+
+
 
 while heroi.vida > 0 and vilao.vida > 0:
     heroi.atacar(vilao)
@@ -66,55 +66,41 @@ class Pontuacao:
         print(self.pontos)
 
 
-"""
-Crie uma classe Pontuacao com um atributo pontos, inicializado
-em 0, e dois métodos: adicionar_pontos(quantidade), que soma
-quantidade ao total de pontos, e mostrar_pontos(), que imprime
-a pontuação atual.
-"""
-
 class Menu:
-    def __init__(self):
-        pass
+    def __init__(self, titulo):
+        self.titulo = titulo  
+
     def iniciar_jogo(self):
+        print(f"=== {self.titulo} ===")
         print("Escolha a dificuldade")
+
     def mostrar_opcoes(self):
-        print("Aqui esta todas as configurações")
+        print("Aqui estão todas as configurações")
+
     def sair(self):
-        print("Deseja mesmo sair desse jogo tão boom?")
+        print("Deseja mesmo sair desse jogo tão bom?")
+
 
 
 
 class Jogador:
-    def __init__(self):
-        self.energia = 100
+    def __init__(self, nome, energia, pontos):
+        self.nome = nome
+        self.energia = energia 
+        self.pontos = pontos   
 
     def recuperar_energia(self, quantidade):
-            self.energia += quantidade
-            print(f"Energia recuperada. Você esta com {self.energia} de energia.")
+        self.energia += quantidade
+        print(f"Energia recuperada. Você está com {self.energia} de energia.")
 
     def usar_energia(self, quantidade):
         if self.energia - quantidade < 0:
             print("Sem energia")
         else:
             self.energia -= quantidade
-            print(f"Foi um otimo golpe. No entanto, resta {self.energia} de energia.")
+            print(f"Foi um ótimo golpe. No entanto, resta {self.energia} de energia.")
 
 
 
 
-
-"""
-teste = pontuacao()
-teste.pontos = +5
-teste.adicionar_pontos(43)
-teste.mostrar_pontos()
-"""
-
-
-heroi = Personagem()
-vilao = Inimigo("Goblin")
-
-vilao.atacar(heroi)  # Goblin atacou! Vida restante: 90
-vilao.atacar(heroi)  # Goblin atacou! Vida restante: 80
 

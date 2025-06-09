@@ -4,7 +4,7 @@ class Personagem:
     def __init__(self, nome):
         self.nome = nome
         self.__vida = 100
-        self.__defesa = 50  # exemplo: inicia com defesa 50
+        self.__defesa = 50  
 
     @property
     def vida(self):
@@ -87,7 +87,7 @@ class Jogador:
 
 class Jogo:
     def __init__(self):
-        self.__dificuldade = 1  # padrão é dificuldade 1
+        self.__dificuldade = 1 
 
     @property
     def dificuldade(self):
