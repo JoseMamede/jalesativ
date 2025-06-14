@@ -1,13 +1,14 @@
 #Criando classes sem atributos, apenas métodos
 import random
+
 class Jogo:
     def iniciar(self):
         print("O jogo começou!")
 
 class JogoMultiplayer(Jogo):
     def __init__(self):
-        super().__init__() 
-        self.jogadores = []  
+        super().__init__()
+        self.jogadores = []
 
     def adicionar_jogador(self, jogador):
         self.jogadores.append(jogador)
@@ -18,11 +19,13 @@ class JogoMultiplayer(Jogo):
         for jogador in self.jogadores:
             print(f"- {jogador.nome}")
 
+    def iniciar(self):
+        print("O jogo multiplayer começou! Aguardando todos os jogadores se conectarem...")
 
 class Personagem:
     def __init__(self, nome, vida):
         self.nome = nome
-        self.vida = vida  
+        self.vida = vida
 
     def tomar_dano(self, dano):
         self.vida -= dano
@@ -35,13 +38,24 @@ class Personagem:
         print(f"{self.nome} atacou ferozmente!")
         alvo.tomar_dano(dano)
 
+    def falar(self):  # Questão 36
+        print(f"{self.nome} diz: Estou pronto para a batalha!")
 
+class NPC(Personagem):
+    def __init__(self, nome, vida):
+        super().__init__(nome, vida)
+
+    def atacar(self, alvo):
+        print(f"{self.nome} é um NPC pacífico e não pode atacar.")
+
+    def falar(self):
+        print(f"{self.nome} diz: Bem-vindo à aldeia, viajante. Posso te ajudar?")
 
 class Inimigo:
     def __init__(self, nome, vida, forca):
         self.nome = nome
-        self.vida = vida  
-        self.forca = forca  
+        self.vida = vida
+        self.forca = forca
 
     def tomar_dano(self, dano):
         self.vida -= dano
@@ -50,38 +64,38 @@ class Inimigo:
         print(f"{self.nome} tomou {dano} de dano! Vida restante: {self.vida}")
 
     def atacar(self, alvo):
-        dano = random.randint(5, 20) + self.forca  
+        dano = random.randint(5, 20) + self.forca
         print(f"{self.nome} atacou ferozmente!")
         alvo.tomar_dano(dano)
 
+class Chefe(Inimigo):
+    def __init__(self, nome, vida, forca):
+        vida *= 2
+        forca *= 2
+        super().__init__(nome, vida, forca)
 
-
-
-while heroi.vida > 0 and vilao.vida > 0:
-    heroi.atacar(vilao)
-    if vilao.vida <= 0:
-        print(f"{vilao.nome} foi pra vala! {heroi.nome} venceu!")
-        break
-
-    vilao.atacar(heroi)
-    if vilao.vida <= 0:
-        print(f"{heroi.nome} foi pra vala! {vilao.nome} venceu!")
-        break
+    def atacar(self, alvo):
+        dano = random.randint(10, 30) + self.forca + 10
+        print(f"{self.nome} usa um golpe especial devastador!")
+        alvo.tomar_dano(dano)
 
 class Pontuacao:
     def __init__(self):
         self.__pontos = 0
-    def zerar_pontos(self):
-        print("Pontuação zerada!")
-    def adicionar_pontos(self, quantidade):
-        self.pontos += quantidade
-    def mostrar_pontos(self):
-        print(self.pontos)
 
+    def zerar_pontos(self):
+        self.__pontos = 0
+        print("Pontuação zerada!")
+
+    def adicionar_pontos(self, quantidade):
+        self.__pontos += quantidade
+
+    def mostrar_pontos(self):
+        print(self.__pontos)
 
 class Menu:
     def __init__(self, titulo):
-        self.titulo = titulo  
+        self.titulo = titulo
 
     def iniciar_jogo(self):
         print(f"=== {self.titulo} ===")
@@ -93,10 +107,15 @@ class Menu:
     def sair(self):
         print("Deseja mesmo sair desse jogo tão bom?")
 
+    def exibir(self): 
+        print(f"Menu: {self.titulo}")
+        print("1. Iniciar Jogo")
+        print("2. Sair")
+
 class MenuAvancado(Menu):
     def __init__(self, titulo):
-        super().__init__(titulo)  
-        self.configuracoes = {}   
+        super().__init__(titulo)
+        self.configuracoes = {}
 
     def salvar_configuracao(self, chave, valor):
         self.configuracoes[chave] = valor
@@ -110,15 +129,15 @@ class MenuAvancado(Menu):
             for chave, valor in self.configuracoes.items():
                 print(f"- {chave}: {valor}")
 
-
-
-
+    def exibir(self):
+        super().exibir()
+        print("3. Configurações Avançadas")
 
 class Jogador:
     def __init__(self, nome, energia, pontos):
         self.nome = nome
-        self.energia = energia 
-        self.pontos = pontos   
+        self.energia = energia
+        self.pontos = pontos
 
     def recuperar_energia(self, quantidade):
         self.energia += quantidade
@@ -135,48 +154,42 @@ class Jogador:
         self.pontos += pontos_ganhos
         print(f"{self.nome} venceu um desafio! Pontuação: {self.pontos}")
 
+    def adicionar_pontos(self, quantidade):
+        self.pontos += quantidade
+
 class JogadorPremium(Jogador):
     def vencer_desafio(self, pontos_ganhos):
-        bonus = 10  
+        bonus = 10
         self.pontos += pontos_ganhos + bonus
         print(f"{self.nome} (Premium) venceu um desafio com bônus! Pontuação: {self.pontos}")
 
+    def adicionar_pontos(self, quantidade):
+        self.pontos += quantidade * 2
+        print(f"{self.nome} (Premium) ganhou pontos em dobro! Total: {self.pontos}")
 
-class NPC(Personagem):
-    def __init__(self, nome, vida):
-        super().__init__(nome, vida)  
-
-    def atacar(self, alvo):
-        print(f"{self.nome} é um NPC pacífico e não pode atacar.")
-
-
-class Chefe(Inimigo):
-    def __init__(self, nome, vida, forca):
-        vida *= 2
-        forca *= 2
-        super().__init__(nome, vida, forca)
-
-
-class Arma:
+class Item:
     def __init__(self, nome):
         self.nome = nome
 
-    def atacar(self):
-        print("Esta arma não tem um ataque definido.")
+    def usar(self, alvo):
+        print(f"O item {self.nome} foi usado, mas não tem efeito definido.")
 
-class Espada(Arma):
-    def __init__(self, nome="Espada"):
+class Pocao(Item):
+    def __init__(self, nome="Poção de Cura", cura=50):
         super().__init__(nome)
+        self.cura = cura
 
-    def atacar(self):
-        print(f"A {self.nome} desfere um golpe cortante corpo a corpo!")
+    def usar(self, alvo):
+        alvo.recuperar_energia(self.cura)
+        print(f"{alvo.nome} usou {self.nome} e recuperou {self.cura} de energia!")
 
-class Arco(Arma):
-    def __init__(self, nome="Arco"):
+class Equipamento(Item):
+    def __init__(self, nome="Armadura de Ferro", defesa_bonus=10):
         super().__init__(nome)
+        self.defesa_bonus = defesa_bonus
 
-    def atacar(self):
-        print(f"O {self.nome} dispara uma flecha à distância!")
+    def usar(self, alvo):
+        print(f"{alvo.nome} equipou {self.nome} e agora possui +{self.defesa_bonus} de defesa (efeito simbólico).")
 
 class Missao:
     def __init__(self, descricao):
@@ -201,29 +214,7 @@ class MissaoSecundaria(Missao):
     def concluir(self):
         print(f"Missão Secundária: {self.descricao} concluída!")
         print("Recompensa: 200 moedas de ouro e poção de cura.")
-class Item:
-    def __init__(self, nome):
-        self.nome = nome
 
-    def usar(self, alvo):
-        print(f"O item {self.nome} foi usado, mas não tem efeito definido.")
-
-class Pocao(Item):
-    def __init__(self, nome="Poção de Cura", cura=50):
-        super().__init__(nome)
-        self.cura = cura
-
-    def usar(self, alvo):
-        alvo.recuperar_energia(self.cura)
-        print(f"{alvo.nome} usou {self.nome} e recuperou {self.cura} de energia!")
-
-class Equipamento(Item):
-    def __init__(self, nome="Armadura de Ferro", defesa_bonus=10):
-        super().__init__(nome)
-        self.defesa_bonus = defesa_bonus
-
-    def usar(self, alvo):
-        print(f"{alvo.nome} equipou {self.nome} e agora possui +{self.defesa_bonus} de defesa (efeito simbólico).")
 class Fase:
     def __init__(self, nome, dificuldade):
         self.nome = nome
@@ -233,6 +224,9 @@ class Fase:
         print(f"Fase: {self.nome}")
         print(f"Dificuldade: {self.dificuldade}")
         print("Características gerais da fase.")
+
+    def gerar_inimigos(self):  # Questão 41
+        print("Gerando inimigos genéricos da fase.")
 
 class FaseFloresta(Fase):
     def __init__(self):
@@ -255,6 +249,9 @@ class FaseDeserto(Fase):
         super().mostrar_caracteristicas()
         print(f"Inimigos comuns: {', '.join(self.inimigos)}")
         print(f"Ambiente: {self.ambiente}")
+
+    def gerar_inimigos(self):
+        print("Gerando escorpiões gigantes e bandidos armados do deserto!")
 
 class Aliado:
     def __init__(self, nome, vida):
