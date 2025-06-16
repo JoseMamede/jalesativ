@@ -284,3 +284,67 @@ class Guerreiro(Aliado):
             print(f"{self.nome} fez um ataque poderoso com a espada! (Energia restante: {self.energia})")
         else:
             print(f"{self.nome} não tem energia suficiente para o ataque poderoso.")
+
+class Voador:
+    def voar(self):
+        print("Voando pelos céus majestosos!")
+
+class Dragao(Inimigo, Voador):
+    def __init__(self, nome, vida, forca):
+        super().__init__(nome, vida, forca)
+
+    def atacar(self, alvo):
+        dano = random.randint(15, 35) + self.forca 
+        print(f"{self.nome} cospe fogo ferozmente!")
+        alvo.tomar_dano(dano)
+
+class Curador:
+    def curar(self, aliado):
+        cura = 30
+        aliado.vida += cura
+        print(f"{aliado.nome} foi curado em {cura} pontos de vida! Vida atual: {aliado.vida}")
+
+class Paladino(Guerreiro, Curador):
+    def __init__(self, nome, vida, energia):
+        super().__init__(nome, vida, energia)
+
+    def habilidade_especial(self):
+        if self.energia >= 10:
+            self.energia -= 10
+            print(f"{self.nome} usa um golpe sagrado poderoso! (Energia restante: {self.energia})")
+        else:
+            print(f"{self.nome} não tem energia suficiente para o golpe sagrado.")
+
+class MagiaElemental:
+    def lancar_magia(self, elemento):
+        elementos_validos = ["fogo", "água", "terra", "ar"]
+        if elemento.lower() in elementos_validos:
+            print(f"Lançando magia de {elemento}!")
+        else:
+            print("Elemento desconhecido. Escolha entre: fogo, água, terra ou ar.")
+
+class MagoElemental(Mago, MagiaElemental):
+    def __init__(self, nome, vida, mana):
+        super().__init__(nome, vida, mana)
+
+    def habilidade_especial(self):
+        if self.mana >= 30:
+            self.mana -= 30
+            print(f"{self.nome} conjura uma poderosa magia elemental! (Mana restante: {self.mana})")
+        else:
+            print(f"{self.nome} não tem mana suficiente para conjurar uma magia elemental.")
+
+class AnimalMontaria:
+    def montar(self):
+        print("Montando na criatura! Preparado para a batalha!")
+
+class Cavaleiro(Guerreiro, AnimalMontaria):
+    def __init__(self, nome, vida, energia):
+        super().__init__(nome, vida, energia)
+
+    def habilidade_especial(self):
+        if self.energia >= 20:
+            self.energia -= 20
+            print(f"{self.nome} realizou um ataque devastador enquanto montado! (Energia restante: {self.energia})")
+        else:
+            print(f"{self.nome} está sem energia para o ataque montado.")
